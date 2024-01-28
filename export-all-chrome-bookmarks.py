@@ -23,7 +23,7 @@ def export_chrome_bookmarks(storage_path, name):
         datetime = time.strftime("%Y-%m-%d-%H-%M-%S")
         output_file = f"output/{name}-{profile}-bookmarks-{datetime}.html"
         subprocess.call(
-            ["python", "export-chrome-bookmarks", profile_path, output_file]
+            ["python", "export-chrome-bookmarks.py", profile_path, output_file]
         )
         print("Exported bookmarks for profile: " + profile)
 
