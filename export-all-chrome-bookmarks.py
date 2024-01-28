@@ -2,6 +2,7 @@ import subprocess
 
 from os.path import expanduser
 from platform import system
+import time
 
 
 def export_chrome_bookmarks(storage_path, name):
@@ -18,8 +19,9 @@ def export_chrome_bookmarks(storage_path, name):
         if "Bookmarks" not in bookmark_files:
             continue
 
-        profile_path = storage_path + "/" + profile + "/Bookmarks"
-        output_file = "output/" + name + "-" + profile + "-bookmarks.html"
+        profile_path = f"{storage_path}/{profile}/Bookmarks"
+        datetime = time.strftime("%Y-%m-%d-%H-%M-%S")
+        output_file = f"output/{name}-{profile}-bookmarks-{datetime}.html"
         subprocess.call(
             ["python", "export-chrome-bookmarks", profile_path, output_file]
         )
@@ -27,6 +29,9 @@ def export_chrome_bookmarks(storage_path, name):
 
 
 if __name__ == "__main__":
+    # create output directory if it doesn't exist
+    subprocess.call(["mkdir", "-p", "output"])
+
     if system() == "Linux":
         export_chrome_bookmarks(expanduser("~/.config/google-chrome"), "chrome")
         export_chrome_bookmarks(
